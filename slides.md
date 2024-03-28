@@ -272,7 +272,7 @@ transition: slide-up
 
 # state 的補充觀念
 
-## Hooks 的限制
+### Hooks 的限制
 
 - 只能在 component function 內被呼叫，hooks 需依賴 component 才能運作
 - 只能在 component function 的頂層作用域被呼叫，不能在條件式、迴圈或 callback 函式中呼叫
@@ -308,7 +308,7 @@ transition: fade
 
 # state 的補充觀念
 
-## 為什麼 `useState` 的回傳值是一個陣列
+### 為什麼 `useState` 的回傳值是一個陣列
 
 - `useState` 回傳值：`[該次 render 的當前狀態值, 更新狀態值的 setState 方法]`
   - 回傳值定義為陣列有助於：呼叫 `useState` 後，更方便的將回傳值[解構賦值](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)給自定義變數
@@ -339,7 +339,7 @@ transition: fade-out
 
 # state 的補充觀念
 
-## `setState` 方法是更新 state 值並觸發 re-render 的唯一合法手段
+### `setState` 方法是更新 state 值並觸發 re-render 的唯一合法手段
 
 - 如何更新 state 資料的值?
   - ✅ **`setState` 是唯一的更新方式**
@@ -358,7 +358,7 @@ transition: slide-up
 
 # state 的補充觀念
 
-## React 如何辨認同一個 component 中的多個 state
+### React 如何辨認同一個 component 中的多個 state
 
 - 可在 component function 內多次呼叫 `useState` 來定義不同的 state，且每個 state 值互不影響：
   ```js
@@ -379,7 +379,7 @@ transition: fade
 
 # state 的補充觀念
 
-## 同一個 component 的同一個 state，在該 component 的不同實例間的狀態資料獨立
+### 同一個 component 的同一個 state，在該 component 的不同實例間的狀態資料獨立
 
 - component 是一種藍圖，可透過藍圖產出實例，產出的實例互不影響
   - state 是依附在 component 上的資料，透過 component 藍圖產出的實例所擁有的 state 也互不影響
@@ -407,12 +407,309 @@ export default function App() {
 ---
 
 ```yaml
-transition: fade-out
+transition: slide-left
 ```
 
 # 補充：props 與 state 的差異
 
 <img src="/image/props-and-state.jpg"  />
+
+---
+
+```yaml
+transition: slide-up
+```
+
+# Render phase 與 Commit phase
+
+<br class='hidden'>
+React 的畫面處理機制可分為兩階段：
+
+- <mdi-numeric-1-circle class='text-cyan-600'/> 產生一份描述最新畫面結構的 React element
+  - 對應 component 的處理機制，稱為「render phase」
+  - 在 render phase，component 會渲染並產生 React element
+- <mdi-numeric-2-circle class='text-cyan-600'/> 將 React element 轉換為畫面上實際的 DOM element
+  - 對應 component 的處理機制，稱為「commit phase」
+  - 在 commit phase，component 會將 React element 提交並處理到瀏覽器的實際 DOM element
+
+<style>
+  ul li {
+    list-style-type: none;
+    margin-left: 0px;
+    ul li{
+      list-style-type: circle;
+      margin-left: 40px;
+    }
+  }
+</style>
+
+---
+
+```yaml
+transition: fade
+```
+
+# Render phase 與 Commit phase
+
+### 產生初始畫面時：首次 render component
+
+<br>
+
+#### Render phase
+
+- 執行 component function，以 props 與 state 資料來產生初始畫面的 React element
+- 將產出的 React element 交給 commit phase 處理
+
+<br>
+
+#### Commit phase
+
+- 將 component 在 render phase 回傳的 React element 全部轉換、建立成實際 DOM element
+  - 第一次 render 時，瀏覽器畫面還沒有此 component 對應的實際 DOM element
+- 透過瀏覽器 API `appendChild()` 放到實際畫面上
+
+> - 「component 首次 render 並 commit 到實際 DOM」的過程也稱為「mount」
+> - mount 完成的狀態稱為「mounted」，代表 component render 已完成，且已「掛載」到瀏覽器畫面
+
+---
+
+```yaml
+transition: fade-out
+```
+
+# Render phase 與 Commit phase
+
+### 更新畫面時：re-render component
+
+<br>
+
+#### Render phase
+
+- 再次執行 component function，以新 props 與 state 產生新 React element，以對應新版本畫面
+- 比較新版本 React element 和上一次 render phase 產生的舊版本 React element，找出差異處
+- 將差異處交給 commit phase 繼續處理
+
+<br>
+
+#### Commit phase
+
+- 只操作、更新新舊 React element 的差異處對應的實際 DOM element，其餘 DOM element 不動
+
+> 更新畫面的情況是 React 畫面管理機制的精髓，通常把 React 更新畫面的流程稱為「reconciliation」
+
+---
+
+```yaml
+transition: slide-up
+```
+
+# Reconciliation 流程
+
+<br class='hidden'>
+
+🌰 以一個 Counter component 作為接下來說明的範例：
+
+```jsx
+import { useState } from 'react';
+
+export default function Counter() {
+  const [count, setCount] = useState(0); // state 值初始值為 0
+  const handleDecrementButtonClick = () => {
+    setCount(count - 1); //以參數指定新的 state 的值為目前 state 值-1
+  };
+  const handleIncrementButtonClick = () => {
+    setCount(count + 1); //以參數指定新的 state 的值為目前 state 值+1
+  };
+  return (
+    <div>
+      <button onClick={handleDecrementButtonClick}>-</button>
+      <span>{count}</span>
+      <button onClick={handleIncrementButtonClick}>+</button>
+    </div>
+  );
+}
+```
+
+---
+
+```yaml
+transition: fade
+```
+
+# Reconciliation 流程
+
+### 首次 render
+
+- Render phase：state 預設是 `0`，會產生如下的 React element
+  ```js
+  <div>
+    <button onClick={handleDecrementButtonClick}>-</button>
+    <span>0</span>
+    <button onClick={handleIncrementButtonClick}>+</button>
+  </div>
+  ```
+- Commit phase：將以上的 React element 完整轉換為實際 DOM element，渲染到瀏覽器畫面上
+
+<br>
+
+畫面更新則進入 reconciliation 過程
+
+---
+
+```yaml
+transition: slide-up
+```
+
+# Reconciliation 流程
+
+### 畫面更新：reconciliation
+
+<br>
+
+#### 步驟一：呼叫 `setState` 方法更新 state 資料，並發起 re-render
+
+- 呼叫 `setState` 要更新資料時，React 會先以 [`Object.is()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/is) 比較要更新的 state 值和舊的值是否相同：
+  - 如果相同，判定資料沒有更新，也不需驅動畫面更新，直接中斷後續，不會觸發 re-render
+  - 如果不同，判定資料需驅動畫面更新，執行 component function 的 re-render
+- 🌰 以上述 Counter component 為例
+  - 點擊 increment button 後，會執行 `setCount(0+1)` （因為當前 state 值為 `0`）
+  - 舊 state 值是 `0`，新值是 `1`，React 會以 `Object.is(0,1)` 比較新舊 state 是否相同
+    - → 比較結果為 false，觸發 component function re-render
+
+---
+
+```yaml
+transition: slide-up
+```
+
+# Reconciliation 流程
+
+### 畫面更新：reconciliation
+
+<br>
+
+#### 步驟二：更新 state 資料並 re-render component function
+
+- 根據傳給 `setState` 的新 state 值來更新資料，以新 props 與 state 再次執行 component function
+- 🌰 以上述 Counter component 為例
+  - 以 `setCount(1)` 傳入的新值 `1` 來更新 state 的值，再次執行 Counter 的 component function
+  - re-render 呼叫 `useState` 回傳的 count 就是新值 `1`
+  - 得到新版的 React element
+    ```js
+    <div>
+      <button onClick={handleDecrementButtonClick}>-</button>
+      <span>1</span>
+      <button onClick={handleIncrementButtonClick}>+</button>
+    </div>
+    ```
+
+---
+
+```yaml
+transition: slide-up
+```
+
+# Reconciliation 流程
+
+### 畫面更新：reconciliation
+
+<br>
+
+#### 步驟三：比較新舊版本的 React element ，並更新差異處對應的實際 DOM element
+
+- 以 diffing 演算法比較 re-render 的新版 React element 和上一次 render 的舊版 React element，找出兩者差異處
+  - 差異處對應的實際 DOM element 是真正要操作的畫面區塊
+- 找出差異後，在 commit phase，React 會操作需要被更新的 DOM element，完成畫面更新
+  - 其他 DOM element 不動，降低操作 DOM 產生的效能消耗
+- 🌰 以上述 Counter component 為例
+  - 比較 Counter component 兩次 render 的新舊 React element，找出差異處是 `<span>` 內的文字，只有 `<span>` 需要被操作和更新
+
+---
+
+```yaml
+transition: slide-up
+```
+
+# Reconciliation 流程
+
+### 整體流程示意圖
+
+<br>
+
+<img src='/image/reconciliation-flow.png' />
+
+---
+
+```yaml
+transition: fade
+```
+
+# setState 觸發的 re-render 會觸發子 component 的 re-render
+
+- 當 setState 觸發 re-render，重新執行 component function 時，如果該 component 內有子 component，也會觸發子 component 的 re-render
+  - [child component re-render demo](https://codesandbox.io/p/sandbox/child-component-re-render-demo-xsdn8g?file=%2Fsrc%2FApp.jsx%3A8%2C35)
+
+<br>
+<hr>
+<br>
+
+#### component 在兩種情況下會被觸發 re-render
+
+- <mdi-numeric-1-circle class='text-cyan-600'/> 作為有 state 且呼叫 `setState` 的 component
+  - component 本身有定義 state，該 state 對應的 `setState` 方法被呼叫時（且要更新的 state 值和既有的值不同）
+- <mdi-numeric-2-circle class='text-cyan-600'/> 作為子 component，被父代以上的 component re-render 影響
+  - component 沒有因為自己的 `setState` 方法被呼叫而 re-render，而是 component 父代以上的 component 發生 re-render，因而觸發子 component 的 re-render
+
+<style>
+  ul li {
+    list-style-type: none;
+    margin-left: 0px;
+    ul li{
+      list-style-type: circle;
+      margin-left: 40px;
+    }
+  }
+</style>
+
+---
+
+```yaml
+transition: fade
+```
+
+# Thanks for Listening!
+
+<br class='hidden'>
+
+Medium：[ \[React\] 認識狀態管理機制 state 與畫面更新機制 reconciliation ](https://medium.com/@linyawun031/react-%E8%AA%8D%E8%AD%98%E7%8B%80%E6%85%8B%E7%AE%A1%E7%90%86%E6%A9%9F%E5%88%B6-state-%E8%88%87%E7%95%AB%E9%9D%A2%E6%9B%B4%E6%96%B0%E6%A9%9F%E5%88%B6-reconciliation-5233ff86bdcc)
+
+<style>
+.slidev-page{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0px auto;
+}
+  </style>
+
+---
+
+```yaml
+transition: slide-left
+```
+
+# 觀念自我檢測
+
+- React state 的本質是什麼? state 在 React 的畫面管理機制扮演什麼角色?
+- State 與 component 的關係是什麼?
+- 為什麼 `useState` 的回傳值是一個陣列?
+- React 是如何辨認並區分同一個 component 中的多個 state 的?
+- 同一個 component 在多個地方被呼叫，它們之間的 state 資料會互通嗎?為什麼?
+- 什麼是 render phase 以及 commit phase?
+- 解釋 React 更新畫面的 reconciliation 流程
+- 一個 component 有哪些可能會被觸發 re-render 的情形?
 
 ---
 
@@ -437,8 +734,10 @@ The title will be inferred from your slide content, or you can override it with 
 
 ---
 
+```yaml
 layout: image-right
 image: https://cover.sli.dev
+```
 
 ---
 
