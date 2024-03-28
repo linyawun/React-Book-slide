@@ -112,7 +112,7 @@ transition: fade-out
 
 - 以 `useState` 這個 hook 來定義、更新狀態資料，並觸發 component 區塊的 React element 重繪，進而更新瀏覽器畫面
 
-<div >
+<div class='mt-4 pa4 bg-#FFF4E9 text-#7C7F8D'>
 Hooks：React 提供的 API，只能在 function component 內的頂層作用域才能呼叫的特殊函式，可將 React 核心特性或功能注入到 component 中
 </div>
 
