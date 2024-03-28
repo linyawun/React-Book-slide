@@ -74,18 +74,6 @@ You can have `style` tag in markdown to override the style for the current page.
 Learn more: https://sli.dev/guide/syntax#embedded-styles
 -->
 
-<style>
-h1 {
-  background-color: #2B90B6;
-  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
-  background-size: 100%;
-  -webkit-background-clip: text;
-  -moz-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -moz-text-fill-color: transparent;
-}
-</style>
-
 <!--
 Here is another comment.
 -->
@@ -112,14 +100,21 @@ level: 2
   - 可將 state 視為「component 內的資料記憶體」
 - 一律重繪的界線
 
-  - 發起 state 更新並啟動重繪時，只會重繪該 component (包含其子孫 component) 以內的畫面區塊
+  - 發起 state 更新並啟動重繪時，只會重繪該 component （包含其子孫 component） 以內的畫面區塊
 
-<style>
-  h4 {
-    color: #2B2826;
-    font-weight: bold;
-  }
-</style>
+---
+
+```yaml
+transition: fade-out
+```
+
+# useState 初探
+
+- 以 `useState` 這個 hook 來定義、更新狀態資料，並觸發 component 區塊的 React element 重繪，進而更新瀏覽器畫面
+
+<div >
+Hooks：React 提供的 API，只能在 function component 內的頂層作用域才能呼叫的特殊函式，可將 React 核心特性或功能注入到 component 中
+</div>
 
 ---
 
