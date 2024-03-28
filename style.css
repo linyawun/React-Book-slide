@@ -1,6 +1,6 @@
-body {
+/* body {
   color: #2b2826;
-}
+} */
 .slidev-layout.cover h1,
 .slidev-layout.intro h1 {
   background-color: #fff;
@@ -27,4 +27,13 @@ ul li {
       list-style-type: square;
     }
   }
+}
+div[class*='language-'],
+pre[class*='language-'],
+code[class*='language-'] {
+  font-size: 1.05em;
+}
+
+.note-block {
+  @apply mt-4 pa4 bg-#E2EEF0 text-#6F8285 border-rounded-2 font-size-3.75;
 }
