@@ -1,7 +1,13 @@
 body {
   color: #2b2826;
 }
-h1 {
+.slidev-layout.cover h1,
+.slidev-layout.intro h1 {
+  background-color: #fff;
+  background-image: linear-gradient(45deg, #fff 10%, #fff 20%);
+  background-size: 100%;
+}
+.slidev-page h1 {
   background-color: #2b90b6;
   background-image: linear-gradient(45deg, #4ec5d4 10%, #146b8c 20%);
   background-size: 100%;
@@ -10,7 +16,7 @@ h1 {
   -webkit-text-fill-color: transparent;
   -moz-text-fill-color: transparent;
 }
-h4 {
+.slidev-page h4 {
   font-weight: bold;
 }
 ul li {

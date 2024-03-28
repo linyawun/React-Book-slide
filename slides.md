@@ -110,11 +110,74 @@ transition: fade-out
 
 # useState 初探
 
-- 以 `useState` 這個 hook 來定義、更新狀態資料，並觸發 component 區塊的 React element 重繪，進而更新瀏覽器畫面
+- `useState` hook 可定義、更新狀態資料，並觸發 component re-render，進而更新瀏覽器畫面
+  - 只能在 component function 內呼叫
+  - 可想成是一種「在 component 內註冊並存取狀態資料」的工具
 
-<div class='mt-4 pa4 bg-#FFF4E9 text-#7C7F8D'>
+<div  class='mt-4 pa4 bg-#E2EEF0 text-#809295 border-rounded-2 font-size-3.75'>
 Hooks：React 提供的 API，只能在 function component 內的頂層作用域才能呼叫的特殊函式，可將 React 核心特性或功能注入到 component 中
 </div>
+
+---
+
+```yaml
+transition: fade-out
+```
+
+# useState 使用方式
+
+```ts
+import { useState } from 'react';
+export default function App(props) {
+  const [state, setState] = useState(initialState);
+  //...
+}
+```
+
+- 參數：state 初始值，可以是任意型別的值
+- 回傳值：回傳一個陣列，陣列包含兩個項目
+  - 第一個項目是「該次 render 的當前 state 值」
+  - 第二個項目是「用來更新 state 值的 `setState` 方法」，是一個 JavaScript 函式
+    - 呼叫 `setState` 時傳入新的 state 值作為參數，以取代舊的 state 值，並觸發 component re-render
+- 開發慣例
+  - 以陣列解構取得 state 的值和 `setState` 方法
+  - 根據商業邏輯自訂變數名稱，如：`const [count, setCount] = useState(0);        
+`
+
+---
+
+```yaml
+transition: fade-out
+```
+
+# useState 應用範例
+
+```ts
+import { useState } from "react";
+export default function Counter() {
+  //呼叫 useState 定義一個 state，來記憶計數器的值，且初始值為0
+  const [count, setCount] = useState(0);
+
+  const handleDecrementButtonClick = () => {
+    //以參數指定新的state值為目前count-1
+    setCount(count - 1);
+  };
+
+  const handleIncrementButtonClick = () => {
+    //以參數指定新的state值為目前count+1
+    setCount(count + 1);
+  };
+
+  return (
+    <div>
+      <button onClick={handleDecrementButtonClick}>-</button>
+      {/* count是useState取出的state的值，count一開始會是我們給的初始值0 */}
+      <span>{count}</span>
+      <button onClick={handleIncrementButtonClick}>+</button>
+    </div>
+  );
+}
+```
 
 ---
 
