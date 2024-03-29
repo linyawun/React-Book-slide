@@ -31,7 +31,7 @@ fonts:
   serif: Robot Noto Serif
   # for code blocks, inline code, etc.
   mono: Fira Code
-download: true
+download: 'https://github.com/linyawun/React-Book-slide/raw/main/react-book-2-8-2-9.pdf'
 exportFilename: 《React 思維進化》 ch2-8~2-9
 ---
 
