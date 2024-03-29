@@ -40,8 +40,8 @@ exportFilename: 《React 思維進化》 ch2-8~2-9
 ## 畫面更新的發動機：state & 畫面更新的流程機制：reconciliation
 
 <div class='mt-6'>
-<p>Speaker：Monica</p>
-<p> 2024.04.03 @Tech-Book-Community</p>
+<p>speaker：Monica</p>
+<p>2024.04.03 @Tech-Book-Community</p>
 </div>
 
 <!-- <div class="pt-12">
