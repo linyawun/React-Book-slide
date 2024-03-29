@@ -10,11 +10,14 @@ info: |
   ## 《React 思維進化》 讀書會導讀：ch2-8~2-9
   - speaker：[Monica](https://github.com/linyawun)
   - 《React 思維進化》 讀書會：[Zet-React-Book](https://github.com/Tech-Book-Community/Zet-React-Book/tree/main/%E7%AC%AC%E4%BA%8C%E7%B5%84)
+author: Monica
 # apply any unocss classes to the current slide
 class: text-center
 # https://sli.dev/custom/highlighters.html
 highlighter: shiki
 # https://sli.dev/guide/drawing
+lineNumbers: true
+
 drawings:
   persist: false
 # slide transition: https://sli.dev/guide/animations#slide-transitions
@@ -29,6 +32,7 @@ fonts:
   # for code blocks, inline code, etc.
   mono: Fira Code
 download: true
+exportFilename: 《React 思維進化》 ch2-8~2-9
 ---
 
 # 《React 思維進化》 ch2-8~2-9
@@ -40,11 +44,11 @@ download: true
 <p> 2024.04.03 @Tech-Book-Community</p>
 </div>
 
-<div class="pt-12">
+<!-- <div class="pt-12">
   <span @click="$slidev.nav.next" class="px-2 py-1 rounded cursor-pointer" hover="bg-white bg-opacity-10">
     Press Space for next page <carbon:arrow-right class="inline"/>
   </span>
-</div>
+</div> -->
 
 <!--
 The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
@@ -110,8 +114,6 @@ level: 2
 ---
 
 ```yaml
-layout: image-right
-image: https://cover.sli.dev
 transition: fade-out
 ```
 
