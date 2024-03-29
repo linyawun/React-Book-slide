@@ -553,6 +553,8 @@ transition: fade
 
 ### 首次 render
 
+<br>
+
 - Render phase：state 預設是 `0`，會產生如下的 React element
   ```js
   <div>
