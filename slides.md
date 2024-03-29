@@ -7,10 +7,9 @@ background: https://cover.sli.dev
 # some information about your slides, markdown enabled
 title: 《React 思維進化》 ch2-8~2-9
 info: |
-  ## Slidev Starter Template
-  Presentation slides for developers.
+  ## 《React 思維進化》 讀書會導讀：ch2-8~2-9
 
-  Learn more at [Sli.dev](https://sli.dev)
+  Learn more at [Zet-React-Book](https://github.com/Tech-Book-Community/Zet-React-Book/tree/main/%E7%AC%AC%E4%BA%8C%E7%B5%84)
 # apply any unocss classes to the current slide
 class: text-center
 # https://sli.dev/custom/highlighters.html
@@ -29,6 +28,7 @@ fonts:
   serif: Robot Noto Serif
   # for code blocks, inline code, etc.
   mono: Fira Code
+download: true
 ---
 
 # 《React 思維進化》 ch2-8~2-9
@@ -39,12 +39,6 @@ fonts:
   <span @click="$slidev.nav.next" class="px-2 py-1 rounded cursor-pointer" hover="bg-white bg-opacity-10">
     Press Space for next page <carbon:arrow-right class="inline"/>
   </span>
-</div>
-
-<div class="abs-br m-6 flex gap-2">
-  <button @click="$slidev.nav.openInEditor()" title="Open in Editor" class="text-xl slidev-icon-btn opacity-50 !border-none !hover:text-white">
-    <carbon:edit />
-  </button>
 </div>
 
 <!--
@@ -59,10 +53,10 @@ transition: slide-left
 
 # 什麼是 state?
 
-- 前端很常遇到使用者與網頁互動，進而使網頁產生變化的情境
-  - 需要記錄這些「可更新的資料」以維持應用運作，在資料更新時連動更新畫面，此類資料通常稱為應用程式的「state(狀態資料)」
+- 前端常遇到使用者與網頁互動，進而使網頁產生變化的情境
+  - 需記錄這些「可更新的資料」以維持應用運作，在資料更新時連動更新畫面，此類資料稱為應用程式的「state(狀態資料)」
 - 單向資料流：原始資料更新時，畫面才會更新，原始資料是畫面結果的起點
-  - React 的 state 機制扮演「可更新的原始資料(也常稱作狀態)」角色，作為單向資料流起
+  - React 的 state 機制扮演「可更新的原始資料（也常稱作狀態）」角色，作為單向資料流起
     <img src="/image/one-way data flow(state).png" class="h-15 mt-4" />
 
 <!--
@@ -92,10 +86,10 @@ level: 2
 > 以 component 作為 state 運作的載體及一律重繪的界線
 
 - 運作的載體
-  - state 需依附在 component 上才能記憶、維持狀態資料，生命週期隨 component 存亡
+  - state 需依附於 component 才能記憶、維持狀態資料，生命週期隨 component 存亡
   - 可將 state 視為「component 內的資料記憶體」
 - 一律重繪的界線
-  - 發起 state 更新並啟動重繪時，只會重繪該 component （包含其子孫 component） 以內的畫面區塊
+  - state 更新並啟動重繪時，只重繪該 component （包含其子孫 component） 以內的畫面區塊
 
 ---
 
@@ -130,12 +124,12 @@ export default function App(props) {
 ```
 
 - 參數：state 初始值，可以是任意型別的值
-- 回傳值：回傳一個陣列，陣列包含兩個項目
-  - 第一個項目是「該次 render 的當前 state 值」
-  - 第二個項目是「用來更新 state 值的 `setState` 方法」，是一個 JavaScript 函式
-    - 呼叫 `setState` 時傳入新的 state 值作為參數，以取代舊的 state 值，並觸發 component re-render
+- 回傳值：一個陣列，陣列包含兩個項目
+  - 第一個項目：「該次 render 的當前 state 值」
+  - 第二個項目：「用來更新 state 值的 `setState` 方法」，是一個 JavaScript 函式
+    - 呼叫 `setState` 時傳入新 state 值作為參數，以取代舊 state 值，並觸發 component re-render
 - 開發慣例
-  - 以陣列解構取得 state 的值和 `setState` 方法
+  - 以陣列解構取得 state 值和 `setState` 方法
   - 根據商業邏輯自訂變數名稱，如：`const [count, setCount] = useState(0);        
 `
 
@@ -225,18 +219,18 @@ React element 可分為 3 種類型：
 transition: fade
 ```
 
-# 使用 setState 方法
+# setState 方法
 
 - 點擊按鈕，呼叫 `setState` 觸發狀態資料更新，並連動畫面更新
 - `setState` 使用方式：
-  - 參數：要更新的新值 nextState，可以是任何型別的值
-    - 如果傳入函式，這函式會被視為 updater function，updater function 會拿到一個 pending state 作為參數，並回傳要更新的新值 nextState ([參考官網範例](https://react.dev/reference/react/useState#updating-state-based-on-the-previous-state))
+  - 參數：要更新的新值，可以是任何型別的值
+    - 如果傳入函式，此函式會被視為 updater function，updater function 會拿到一個 pending state 作為參數，並回傳要更新的新值（[參考官網範例](https://react.dev/reference/react/useState#updating-state-based-on-the-previous-state)）
   - 回傳值：無
 - `setState` 觸發 component 的 re-render 時，會重新執行 component function，產生新版本的 React element
-  - 再次執行到 `useState` 時，得到的回傳值 state 就是新的 state 值 (也就是上次 `setState` 傳入的新值)
+  - 再次執行到 `useState` 時，得到的回傳值 state 就是新 state 值（上次 `setState` 傳入的新值）
 
 <div  class='note-block'>
-💡 呼叫 <code>setState</code> 後，React 不會立即觸發 re-render，而是等正在執行的事件內所有程式結束後，才開始執行 re-render，因此會聽到「<code>setState</code> 是非同步的」這種說法。
+💡 呼叫 <code>setState</code> 後，React 不會立即觸發 re-render，而是等正在執行的事件內所有程式結束後，才開始執行 re-render，因此會聽到「<code>setState</code> 是非同步的」這種說法
 </div>
 
 <!--
@@ -298,7 +292,7 @@ useState(); // ⛔️ 非法的 hooks 呼叫，沒有在 component function 內�
 
 #### 為何 hooks 有這些限制?
 
-- 為了確保 hooks 機制正確運作，沒遵守規定可能導致資料丟失問題
+- 為了確保 hooks 機制正確運作，沒遵守可能導致資料丟失問題
 
 ---
 
@@ -383,6 +377,7 @@ transition: fade
 
 - component 是一種藍圖，可透過藍圖產出實例，產出的實例互不影響
   - state 是依附在 component 上的資料，透過 component 藍圖產出的實例所擁有的 state 也互不影響
+    <br>
     [React state demo](https://codesandbox.io/p/sandbox/react-state-demo-ymg38c?file=%2Fsrc%2FApp.js%3A11%2C11)
 
 <div class='ml-10'>
