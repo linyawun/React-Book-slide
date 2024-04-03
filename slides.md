@@ -231,6 +231,10 @@ React element 可分為 3 種類型：
   - 傳遞事件綁定的 props 沒有任何效果，只是剛好自定義 prop 也叫 `onClick`
 - Fragment 類型，也就是 `<>` 或 `<Fragment>`
   - 傳遞 `key` 以外的其他 props 沒有意義
+  - 補充：Fragment 可接受 `children` props，以包住多個 JSX ，但[官方文件](https://react.dev/reference/react/Fragment#props)的確只提到 `key` props
+    ```jsx {all}{maxHeight:'20px'}
+    <Fragment>...這段就是 children props... </Fragment>
+    ```
 
 ---
 
@@ -667,12 +671,13 @@ transition: fade
 
 <br>
 
-#### component 在兩種情況下會被觸發 re-render
+#### component 在以下情況會被觸發 re-render
 
 - <mdi-numeric-1-circle class='text-cyan-600'/> 作為有 state 且呼叫 `setState` 的 component
-  - component 本身有定義 state，該 state 對應的 `setState` 方法被呼叫時（且要更新的 state 值和既有的值不同）
+  - component 本身有定義 state，該 state 對應的 `setState` 方法被呼叫時（且要更新的值和既有值不同）
 - <mdi-numeric-2-circle class='text-cyan-600'/> 作為子 component，被父代以上的 component re-render 影響
   - component 沒有因為自己的 `setState` 方法被呼叫而 re-render，而是 component 父代以上的 component 發生 re-render，因而觸發子 component 的 re-render
+- <mdi-numeric-3-circle class='text-cyan-600'/> （補充） 使用 context 而 context 的值發生變化時，依賴該 context 的 component 就會 re-render （[ref](https://react.dev/reference/react/useContext#caveats)）
 
 <style>
   ul li {
@@ -713,3 +718,4 @@ transition: slide-left
 - 什麼是 render phase 以及 commit phase?
 - 解釋 React 更新畫面的 reconciliation 流程
 - 一個 component 有哪些可能會被觸發 re-render 的情形?
+- （面試考題）解釋呼叫 `setState` 到瀏覽器畫面發生變化，發生什麼事情？
